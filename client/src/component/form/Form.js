@@ -1,7 +1,10 @@
 import { TextField, Button, Typography, Paper } from '@mui/material';
 import FileBase from 'react-file-base64';
 import { useState } from 'react';
+import { createPost } from '../../redux/features/postSlice';
+import { useDispatch } from 'react-redux';
 const Form = () => {
+  const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
@@ -9,7 +12,11 @@ const Form = () => {
     tags: '',
     selectedFile: '',
   });
-  const handleSubmit = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(createPost(postData));
+  };
+  const clear = () => {};
   return (
     <>
       <Paper>
@@ -55,11 +62,29 @@ const Form = () => {
             <FileBase
               type="file"
               multiple={false}
-              onDone={base64 =>
+              onDone={({ base64 }) =>
                 setPostData({ ...postData, selectedFile: base64 })
               }
             />
           </div>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            fullWidth
+          >
+            submit
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={clear}
+            fullWidth
+          >
+            Clear
+          </Button>
         </form>
       </Paper>
     </>
