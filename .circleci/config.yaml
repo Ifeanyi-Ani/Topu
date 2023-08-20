@@ -17,4 +17,4 @@ jobs:
       - checkout
       - run:
           name: Run tests
-          command: cd client && npm test
+          command: cd .. /client && npm test
